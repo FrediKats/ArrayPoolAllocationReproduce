@@ -3,18 +3,18 @@ using GeneticAlgo.Shared.Models;
 
 namespace GeneticAlgo.Shared.Tools;
 
-public class DummyExecutionContext : IExecutionContext
+public class CircleGenerator
 {
     private readonly int _circleCount;
     private readonly int _maximumValue;
     private readonly Vector2 _goal;
     private readonly BarrierCircle[] _circles;
 
-    public DummyExecutionContext(int maximumValue, int circleCount)
+    public CircleGenerator(int maximumValue, int circleCount, Vector2 goal)
     {
         _maximumValue = maximumValue;
         _circleCount = circleCount;
-        _goal = new Vector2((float) 1.0, (float) 1.0);
+        _goal = goal;
         _circles = ReportCircles();
     }
 
@@ -26,14 +26,15 @@ public class DummyExecutionContext : IExecutionContext
         return _circles;
     }
 
-    public BarrierCircle[] ReportCircles()
+    private BarrierCircle[] ReportCircles()
     {
         var circles = new BarrierCircle[_circleCount];
         for (int i = 0; i < _circleCount; i++)
         {
-            var positionX = NextPosition;
-            var positionY = NextPosition;
-            var radius = NextRadius;
+            double positionX = NextPosition;
+            double positionY = NextPosition;
+            double radius = NextRadius;
+
             while (Math.Sqrt(positionX * positionX + positionY * positionY) < radius || 
                    Math.Sqrt((positionX - _goal.X) * (positionX - _goal.X) + 
                              (positionY - _goal.Y) * (positionY - _goal.Y)) < radius)

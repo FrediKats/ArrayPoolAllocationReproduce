@@ -3,7 +3,7 @@ using System.Numerics;
 
 namespace GeneticAlgo.Shared.Entities;
 
-public struct Brain
+public class Brain
 {
     //public static ArrayPool<Vector2> MainPool = ArrayPool<Vector2>.Create(Settings.StepsCount, 4000);
     public static ArrayPool<Vector2> MainPool => ArrayPool<Vector2>.Shared;
@@ -24,29 +24,31 @@ public struct Brain
     {
         for (var i = 0; i < Directions.Length; i++)
         {
-            var angle = Random.Shared.NextDouble() * 2 * Math.PI;
-            var x = Math.Cos(angle) * 0.005;
-            var y = Math.Sin(angle) * 0.005;
-            Directions[i] = new Vector2((float) x, (float) y);
+            float angle = Random.Shared.NextSingle() * 2 * MathF.PI;
+            float x = MathF.Cos(angle) * 0.005f;
+            float y = MathF.Sin(angle) * 0.005f;
+            Directions[i] = new Vector2(x, y);
         }
     }
     public Brain CloneBrain()
     {
-        Brain clone = new Brain(Directions.Length);
-        for (int i = 0; i < Directions.Length; i++)
+        var clone = new Brain(Directions.Length);
+        for (var i = 0; i < Directions.Length; i++)
             clone.Directions[i] = Directions[i];
         return clone;
     }
+
     public void Mutate()
     {
         for (var i = 0; i < Directions.Length; i++)
         {
-            var rand = Random.Shared.NextDouble();
+            double rand = Random.Shared.NextDouble();
             if (rand > MutateChance) continue;
-            var angle = Random.Shared.NextDouble() * 2 * Math.PI;
-            var x = Math.Cos(angle) * 0.005;
-            var y = Math.Sin(angle) * 0.005;
-            Directions[i] = new Vector2((float) x, (float) y);
+
+            float angle = Random.Shared.NextSingle() * 2 * MathF.PI;
+            float x = MathF.Cos(angle) * 0.005f;
+            float y = MathF.Sin(angle) * 0.005f;
+            Directions[i] = new Vector2(x, y);
         }
     }
 

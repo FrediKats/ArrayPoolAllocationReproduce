@@ -2,16 +2,15 @@
 
 public class Population
 {
-    public double FitnessSum;
     public Dot[] Dots;
-    public int BestDot;
-    public int MinStep;
+
+    private int _minStep;
 
     public Population(int minStep, int dotsCount)
     {
-        BestDot = 0;
-        MinStep = minStep;
+        _minStep = minStep;
         Dots = new Dot[dotsCount];
+
         for (int i = 0; i < Dots.Length; i++)
             Dots[i] = new Dot();
     }
@@ -20,7 +19,7 @@ public class Population
     {
         for (int i = 0; i < Dots.Length; i++)
         {
-            if (Dots[i].Brain.Step > MinStep + 200)
+            if (Dots[i].Brain.Step > _minStep + 200)
             {
                 Dots[i].IsDead = true;
                 Dots[i].IsSlow = true;
@@ -46,14 +45,14 @@ public class Population
     public void NextGeneration() 
     {
         var newDots = new Dot[Dots.Length];
-        SetBestDot();
-        CalculateFitnessSum();
-        
-        newDots[0] = Dots[BestDot].GetBaby();
+        Dot bestDot = SetBestDot();
+
+        newDots[0] = bestDot.GetBaby();
+        double fitnessSum = Dots.Sum(t => t.GetFitness());
         for (int i = 1; i < newDots.Length; i++)
         {
-            var parent = SelectParent();
-            var baby = parent.GetBaby();
+            Dot parent = SelectParent(fitnessSum);
+            Dot baby = parent.GetBaby();
             newDots[i] = baby;
         }
         
@@ -64,55 +63,34 @@ public class Population
         Dots = newDots;
     }
 
-    public void CalculateFitnessSum()
-    {
-        FitnessSum = 0;
-        for (int i = 0; i < Dots.Length; i++) {
-            FitnessSum += Dots[i].GetFitness();
-        }
-    }
-    
-    public Dot SelectParent()
-    {
-        var rand = Random.Shared.NextDouble() * FitnessSum;
-        double runningSum = 0;
-        for (int i = 0; i < Dots.Length; i++) 
-        {
-            runningSum += Dots[i].GetFitness();
-            if (runningSum > rand)
-                return Dots[i];
-        }
-        
-        return null;
-    }
-    
     public void MutateBabies() 
     {
         for (int i = 1; i< Dots.Length; i++)
             Dots[i].Brain.Mutate();
     }
-    
-    public void SetBestDot() 
+
+    private Dot SelectParent(double fitnessSum)
     {
-        double max = 0;
-        int maxIndex = 0;
-        for (int i = 0; i < Dots.Length; i++)
+        double rand = Random.Shared.NextDouble() * fitnessSum;
+        double runningSum = 0;
+
+        foreach (Dot selectedDot in Dots)
         {
-            double fitness = Dots[i].GetFitness();
-            if (fitness > max) 
-            {
-                max = fitness;
-                maxIndex = i;
-            }
+            runningSum += selectedDot.GetFitness();
+            if (runningSum > rand)
+                return selectedDot;
         }
 
-        BestDot = maxIndex;
+        throw new Exception("Unreached code");
+    }
 
-        if (Dots[BestDot].IsReached)
-        {
-            MinStep = Dots[BestDot].Brain.Step;
-            //Log.Information("Steps: {0} \n Fitness: {1} number of best: {2}", MinStep, Dots[_bestDot].Fitness, _bestDot);
-        }
-            
+    private Dot SetBestDot() 
+    {
+        Dot bestDot = Dots.MaxBy(d => d.GetFitness()) ?? throw new ArgumentException(nameof(Dots));
+
+        if (bestDot.IsReached)
+            _minStep = bestDot.Brain.Step;
+
+        return bestDot;
     }
 }
