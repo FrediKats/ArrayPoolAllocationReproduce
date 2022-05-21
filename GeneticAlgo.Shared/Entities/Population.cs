@@ -49,6 +49,7 @@ public class Population
 
         newDots[0] = bestDot.GetBaby();
         double fitnessSum = Dots.Sum(t => t.GetFitness());
+
         for (int i = 1; i < newDots.Length; i++)
         {
             Dot parent = SelectParent(fitnessSum);

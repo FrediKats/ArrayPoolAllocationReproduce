@@ -32,7 +32,7 @@ public class Dot
 
     private void Move()
     {
-        if (Brain.Step < Brain.Directions.Length)
+        if (Brain.Step < Brain.GenCount)
         {
             _acceleration = Brain.Directions[Brain.Step];
             Brain.Step++;
