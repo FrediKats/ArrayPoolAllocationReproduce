@@ -11,6 +11,7 @@ Console.Read();
 
 [SimpleJob]
 [MemoryDiagnoser]
+[MarkdownExporter]
 public class FileSystemBenchmark
 {
     [Params(true, false)]
