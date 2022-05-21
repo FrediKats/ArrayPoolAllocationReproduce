@@ -3,21 +3,6 @@ using System.Numerics;
 
 namespace GeneticAlgo.Shared.Entities;
 
-public static class Counter
-{
-    public static int MaxValue { get; set; }
-    public static int Value { get; set; }
-    public static void Change(int value)
-    {
-        Value += value;
-        if (Value > MaxValue)
-        {
-            MaxValue = Value;
-            Console.WriteLine(MaxValue);
-        }
-    }
-}
-
 public struct Brain
 {
     //public static ArrayPool<Vector2> MainPool = ArrayPool<Vector2>.Create(Settings.StepsCount, 4000);
@@ -30,7 +15,6 @@ public struct Brain
     public Brain(int size)
     {
         Directions = MainPool.Rent(size);
-        Counter.Change(1);
         Step = 0;
         MutateChance = 0.025;
         Randomize();
@@ -69,6 +53,5 @@ public struct Brain
     public void Clear()
     {
         MainPool.Return(Directions);
-        Counter.Change(-1);
     }
 }

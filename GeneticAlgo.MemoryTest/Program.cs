@@ -1,7 +1,4 @@
-﻿using System.Numerics;
-using System.Text.Json;
-using GeneticAlgo.Shared.Entities;
-using GeneticAlgo.Shared.Models;
+﻿using GeneticAlgo.Shared.Entities;
 
 namespace GeneticAlgo.MemoryTest;
 
