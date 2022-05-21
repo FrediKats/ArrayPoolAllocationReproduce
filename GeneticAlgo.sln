@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeneticAlgo.MemoryTest", "G
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeneticAlgo.Shared", "GeneticAlgo.Shared\GeneticAlgo.Shared.csproj", "{CB0B8678-232B-40BD-B0C5-41526D94C95C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticAlgo.Benchmark", "GeneticAlgo.Benchmark\GeneticAlgo.Benchmark.csproj", "{77F1FCA7-21BA-45CD-BCCF-ED364FE16735}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{CB0B8678-232B-40BD-B0C5-41526D94C95C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB0B8678-232B-40BD-B0C5-41526D94C95C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CB0B8678-232B-40BD-B0C5-41526D94C95C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77F1FCA7-21BA-45CD-BCCF-ED364FE16735}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77F1FCA7-21BA-45CD-BCCF-ED364FE16735}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77F1FCA7-21BA-45CD-BCCF-ED364FE16735}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77F1FCA7-21BA-45CD-BCCF-ED364FE16735}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
