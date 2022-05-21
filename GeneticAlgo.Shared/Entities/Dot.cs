@@ -1,6 +1,4 @@
-﻿using System.Buffers;
-using System.Numerics;
-using System.Text.Json;
+﻿using System.Numerics;
 
 namespace GeneticAlgo.Shared.Entities;
 
@@ -9,12 +7,11 @@ public class Dot
     public Vector2 Position;
     public Vector2 Speed;
     public Vector2 Acceleration;
+
     public Brain Brain;
     public bool IsDead;
     public bool IsReached;
-    public bool IsBest;
     public bool IsSlow;
-    public double Fitness;
 
     public Dot() : this(new Brain(Settings.StepsCount))
     {
@@ -26,9 +23,7 @@ public class Dot
         Brain = other;
         IsDead = false;
         IsReached = false;
-        IsBest = false;
         IsSlow = false;
-        Fitness = 0.0;
         Position = new Vector2(0.0f, 0.0f);
         Speed = new Vector2(0.0f, 0.0f);
         Acceleration = new Vector2(0.0f, 0.0f);
@@ -96,21 +91,20 @@ public class Dot
         return false;
     }
     
-    public void CalculateFitness()
+    public double GetFitness()
     {
         if (IsReached)
-            Fitness = 50000.0 / (Brain.Step * Brain.Step);
-        else if (!IsSlow)
+            return 50000.0 / (Brain.Step * Brain.Step);
+
+        if (!IsSlow)
         {
             double distX = Position.X - Settings.Goal.X;
             double distY = Position.Y - Settings.Goal.Y;
             double dist = Math.Sqrt(distX * distX + distY * distY);
-            Fitness = 0.1 / (dist * dist);
+            return 0.1 / (dist * dist);
         }
-        else
-        {
-            Fitness = 0.0;
-        }
+
+        return 0.0;
     }
 
     public void Clear()

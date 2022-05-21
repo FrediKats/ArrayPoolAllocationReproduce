@@ -1,12 +1,7 @@
-﻿using System.Buffers;
-using System.Numerics;
-using Serilog;
-
-namespace GeneticAlgo.Shared.Entities;
+﻿namespace GeneticAlgo.Shared.Entities;
 
 public class Population
 {
-    public int Gen = 1;
     public double FitnessSum;
     public Dot[] Dots;
     public int BestDot;
@@ -19,7 +14,6 @@ public class Population
         Dots = new Dot[dotsCount];
         for (int i = 0; i < Dots.Length; i++)
             Dots[i] = new Dot();
-        Logger.Init();
     }
 
     public void NextIteration(double width, double height)
@@ -35,14 +29,6 @@ public class Population
             {
                 Dots[i].NextIteration(width, height);
             }
-        }
-    }
-
-    public void CalculateFitness()
-    {
-        for (int i = 0; i < Dots.Length; i++)
-        {
-            Dots[i].CalculateFitness();
         }
     }
 
@@ -64,7 +50,6 @@ public class Population
         CalculateFitnessSum();
         
         newDots[0] = Dots[BestDot].GetBaby();
-        newDots[0].IsBest = true;
         for (int i = 1; i < newDots.Length; i++)
         {
             var parent = SelectParent();
@@ -77,14 +62,13 @@ public class Population
             Dots[i].Clear();
         }
         Dots = newDots;
-        Gen++;
     }
 
     public void CalculateFitnessSum()
     {
         FitnessSum = 0;
         for (int i = 0; i < Dots.Length; i++) {
-            FitnessSum += Dots[i].Fitness;
+            FitnessSum += Dots[i].GetFitness();
         }
     }
     
@@ -94,7 +78,7 @@ public class Population
         double runningSum = 0;
         for (int i = 0; i < Dots.Length; i++) 
         {
-            runningSum += Dots[i].Fitness;
+            runningSum += Dots[i].GetFitness();
             if (runningSum > rand)
                 return Dots[i];
         }
@@ -112,11 +96,12 @@ public class Population
     {
         double max = 0;
         int maxIndex = 0;
-        for (int i = 0; i < Dots.Length; i++) 
+        for (int i = 0; i < Dots.Length; i++)
         {
-            if (Dots[i].Fitness > max) 
+            double fitness = Dots[i].GetFitness();
+            if (fitness > max) 
             {
-                max = Dots[i].Fitness;
+                max = fitness;
                 maxIndex = i;
             }
         }

@@ -1,7 +1,4 @@
-﻿using System.Numerics;
-using System.Reflection.Metadata.Ecma335;
-
-namespace GeneticAlgo.Shared.Entities;
+﻿namespace GeneticAlgo.Shared.Entities;
 public class Execution
 {
     public Population Population;
@@ -24,7 +21,6 @@ public class Execution
         if (!Population.AllDead())
         {
             Population.NextIteration(Width, Height);
-            Population.CalculateFitness();
         }
     }
 }
